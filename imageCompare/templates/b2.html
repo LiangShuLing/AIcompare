@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html><body>
+<div id="origin">
+    <iframe src="http://localhost:5000/first2" width="100%" height=450px scrolling="yes"></iframe></div>
+<form action="http://localhost:5000/" method="post">
+</form>
+
+<div class="content-div">
+    <div>
+        <a href="/test">
+            <button onclick=""><b>对比结果</b></button>
+<!--            <button id="btn1">-->
+<!--图像对比</button>-->
+        </a>
+<!--        <button id="btn2" style="margin-left: 230px;">隐藏对比结果</button>-->
+        </br></br>
+    </div>
+    <div align="center">
+    <img style="margin-top: 0px;" src="{{url_for('static',filename='img/result.jpg')}}" width="780px" height="300px">
+</div></div>
+<script>
+btn1.onclick =  python_function() {
+        // 调用Python函数
+        $.ajax({
+            url: 'http://localhost:5000/imagecompare', // Python程序文件路径
+            type: 'get', // 请求方式为get
+            dataType: 'text', // 服务器返回的数据类型
+            success: function (data) {
+                // 这里是成功时的回调函数
+                alert('调用Python函数成功，返回值：' + data);
+            },
+            error: function () {
+                // 这里是失败时的回调函数
+                alert('调用Python函数失败！');
+            }
+            console.log("获取数据");
+
+        });
+    }
+        // 1.获取事件源
+        var btn = document.getElementById("btn2");
+        var img = document.getElementsByTagName("img")[0];
+        // var isShow = true;
+        // 2.绑定事件
+        btn.onclick = function() {
+            // 3. 事件驱动程序
+            if(btn.innerHTML === "隐藏对比结果"){
+                img.style.display = "none";
+                btn.innerHTML = "显示对比结果";
+                isShow = false;
+            } else {
+                img.style.display = "block";
+                btn.innerHTML = "隐藏对比结果";
+                isShow = true;
+            }
+        }
+
+</script>
+</body>
+</html>

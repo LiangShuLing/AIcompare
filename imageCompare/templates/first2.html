@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+		* {
+			box-sizing: border-box;
+		}
+		p a {
+			text-decoration: none;
+		}
+		.hidden {
+			display: none;
+		}.content-div {
+		display:flex; }
+		.dropArea {
+			display: flex;
+			align-content: flex-start;
+			flex-wrap: wrap;
+			position: relative;
+			margin: 0 auto;
+			width: 900px;
+			height: 250px;
+			border: 0px dashed gray;
+			background-color: #e6e6e6;
+			overflow: hidden;
+			cursor: pointer;
+			box-sizing: content-box;
+		}
+		.tip {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			font-size: 2em;
+			font-weight: bold;
+			text-align: center;
+			line-height: 250px;
+			color: gray;
+		}
+		.compress-list-item {
+			padding: 10px;
+			width: 50%;
+			height: 250px;
+		}
+		.compress-list-preview {
+			width: 100%;
+			height: 100%;
+			background-size: 100% 100%;
+		}
+
+    </style>
+</head>
+<body>
+<div class="demo">
+    <h1>原始图像</h1>
+    <div align="center">
+        <img src="{{url_for('static',filename='img/image1.jpg')}}" width="500px" height="250px">
+        <img src="{{url_for('static',filename='img/image2.jpg')}}" width="500px" height="250px">
+    </div>
+</div>
+
+<script type="text/javascript">
+		const dropArea = document.querySelector('.dropArea');
+		const tip = document.querySelector('.tip');
+		const file = document.querySelector('input[type="file"]');
+
+		function ignoreDrag(e) {
+			e.preventDefault();	// 取消默认行为
+			// e.stopPropagation();	// 阻止冒泡
+		}
+
+		function fileinfo() {
+			file.onchange = function() {
+				for (var i = 0; i < this.files.length; i++) {
+					// 隐藏提示文字
+					tip.style.display = 'none';
+
+					// 创建一个容器
+					var wrap = document.createElement('div');
+					wrap.className = 'compress-list-item';
+					dropArea.appendChild(wrap);
+
+					// 创建图片实例对象
+					var img = new Image();
+					// 内存生成 URL 实例
+					img_src = window.URL.createObjectURL(this.files[i]);
+					img.src = img_src;
+
+					// 创建背景缩略图
+					var item = document.createElement('div');
+					item.className = 'compress-list-preview';
+					item.style.backgroundImage = 'url(' + img_src + ')';
+					wrap.appendChild(item);
+
+					// 若背景图加载成功，则释放 URL 实例
+					img.onload = function() {
+						window.URL.revokeObjectURL(this.src);
+					}
+				}
+			}
+		}
+
+		// 事件监听
+		dropArea.addEventListener('dragenter', ignoreDrag, false);
+		dropArea.addEventListener('dragover', ignoreDrag, false);
+		dropArea.addEventListener('drop', function(e) {
+			ignoreDrag(e);
+			var files = e.dataTransfer.files;
+			for (var i = 0; i < files.length; i++) {
+				var type = files[i].type;
+				if (type.substring(0, 6) !== 'image/') continue;
+					// 隐藏提示文字
+					tip.style.display = 'none';
+
+					// 创建一个容器
+					var wrap = document.createElement('div');
+					wrap.className = 'compress-list-item';
+					dropArea.appendChild(wrap);
+
+					// 创建图片实例对象
+					var img = new Image();
+					// 内存生成 URL 实例
+					img_src = window.URL.createObjectURL(files[i]);
+					img.src = img_src;
+
+					// 创建背景缩略图
+					var item = document.createElement('div');
+					item.className = 'compress-list-preview';
+					item.style.backgroundImage = 'url(' + img_src + ')';
+					wrap.appendChild(item);
+
+					// 若背景图加载成功，则释放 URL 实例
+					img.onload = function() {
+						window.URL.revokeObjectURL(this.src);
+					}
+			}
+		}, false);
+		dropArea.addEventListener('click', function(e) {
+			// file模拟input点击事件
+			var evt = new MouseEvent('click', {
+				bubbles: false,
+				cancelable: true,
+				view: window
+			});
+			file.dispatchEvent(evt, fileinfo());
+		}, false);
+
+</script>
+</body>
+    </html>

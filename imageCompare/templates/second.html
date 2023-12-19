@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><body>
+<form action="http://localhost:5000/" method="post">
+</form>
+<div class="content-div">
+    <div>
+        <a href="/test">
+            <button onclick="">进行对比</button>
+        </a>
+        <button id="btn" style="margin-left: 230px;">隐藏对比结果</button>
+        </br></br>
+    </div>
+    <img style="margin-top: 0px;" src="{{url_for('static',filename='img/result.jpg')}}" width="780px" height="400px">
+</div>
+<script>
+        // 1.获取事件源
+        var btn = document.getElementById("btn");
+        var img = document.getElementsByTagName("img")[0];
+        // var isShow = true;
+        // 2.绑定事件
+        btn.onclick = function() {
+            // 3. 事件驱动程序
+            if(btn.innerHTML === "隐藏对比结果"){
+                img.style.display = "none";
+                btn.innerHTML = "显示对比结果";
+                isShow = false;
+            } else {
+                img.style.display = "block";
+                btn.innerHTML = "隐藏对比结果";
+                isShow = true;
+            }
+        }
+
+</script>
+</body>
+</html>
