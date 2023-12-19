@@ -33,7 +33,7 @@ def first2():
         "first2.html"
     )
 @app.route("/", methods=['GET', 'POST'])
-def upload_file():
+def upload():
     if request.method == 'POST':
         files = os.listdir(imgPath)
         for file in files:
