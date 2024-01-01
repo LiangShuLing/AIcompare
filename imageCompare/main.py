@@ -43,7 +43,8 @@ def upload():
         print(f1.filename)
         f1.save(imgPath+"/"+"image1."+f1.filename.split('.')[-1])
         f2.save(imgPath+"/"+"image2."+f2.filename.split('.')[-1])
-        imageCompare3.compare_images('./originImages/image1.jpg', './originImages/image2.jpg',
+
+        imageCompare3.compare_images(imgPath+"/"+"image1."+f1.filename.split('.')[-1], imgPath+"/"+"image2."+f2.filename.split('.')[-1],
             './static/img/diff.jpg','./static/img/result.jpg')
         return render_template(
             "b2.html"
@@ -71,4 +72,4 @@ def imagecompare():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port =5050)
