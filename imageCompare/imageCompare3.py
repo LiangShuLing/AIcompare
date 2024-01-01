@@ -8,19 +8,28 @@ def compare_images(imageOne, imageTwo, diffSavePath,anotationSavePath):
     path2 = "./static/img"
     path = os.path.abspath(path)
     path2 = os.path.abspath(path2)
+    print(path,path2)
     images = os.listdir(path)
     a = 1
     for image in images:
         image_abs = os.path.join(path,image)
-        new_image = os.path.join(path,"image%s.jpg"%str(a))
-        order = "mv {} {}".format(image_abs,new_image)
-        order2 = "cp {} {}".format(new_image,os.path.join(path2,"image%s.jpg"%str(a)))
-        os.system(order)
-        if os.path.exists(os.path.join(path2,"image%s.jpg"%str(a))):
-            print('this file exist, so remove firstly')
-            os.system("rm {}".format(os.path.join(path2,"image%s.jpg"%str(a))))
+        # new_image = os.path.join(path,"image%s.jpg"%str(a))
+        # order = "mv {} {}".format(image_abs,new_image)
+        order2 = "cp {} {}".format(image_abs,os.path.join(path2,image))
         os.system(order2)
+        ## remove from old path
+        # if os.path.exists(os.path.join(path2,"image%s.jpg"%str(a))):
+        #     print('image%s.jpg  exist, so remove firstly'%str(a))
+        #     os.system("rm {}".format(os.path.join(path2,"image%s.jpg"%str(a))))
+        # os.system(order2)
         a+=1
+    ## remove the old result
+    if os.path.exists(os.path.join(path2, "diff.jpg")):
+        print('diff file exist, so remove firstly')
+        os.system("rm {}".format(os.path.join(path2, "diff.jpg")))
+    if os.path.exists(os.path.join(path2, "result.jpg")):
+        print('result file exist, so remove firstly')
+        os.system("rm {}".format(os.path.join(path2, "result.jpg")))
     image_one = Image.open(imageOne)
     image_two = Image.open(imageTwo)
     try:
