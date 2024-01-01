@@ -37,6 +37,8 @@ def compare_images(imageOne, imageTwo, diffSavePath,anotationSavePath):
         if diff.getbbox() is None:
             # 图片间没有任何不同则直接退出
             print("We are the same!")
+            image_one = cv2.imread(imageOne)
+            cv2.imwrite(anotationSavePath, image_one)
         else:
             # print(diff.getbbox())  ## diff这张图像的大小
             ## 转为灰色,再转为白色, 再转为HSV, 再圈出灰色区域
